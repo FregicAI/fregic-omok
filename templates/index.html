@@ -114,6 +114,7 @@
     <div class="points center"></div>
     <div class="container center"></div>
     <script>
+      let turn = 1;
       const range = function (n, m) {
         if (arguments.length === 1)
           return Array.from({ length: n }).map((_, i) => i);
@@ -279,7 +280,6 @@
       }
 
       const gameStatus = new GameStatus(container);
-      let cnt = 0;
 
       [...document.querySelectorAll('.container .cell')].forEach(function (
         elem,
@@ -295,30 +295,34 @@
         });
 
         elem.addEventListener('click', function (e) {
-          const y = ~~(idx / BOARD_SIZE);
-          const x = idx % BOARD_SIZE;
-          gameStatus.point(x, y);
+          if (turn === 1) {
+            const y = ~~(idx / BOARD_SIZE);
+            const x = idx % BOARD_SIZE;
+            gameStatus.point(x, y);
+            turn = 2;
 
-          const postdata = {
-            stone: [x, y],
-          };
-          $.ajax({
-            type: 'POST',
-            url: '{{url_for("ajax")}}',
-            data: JSON.stringify(postdata),
-            dataType: 'JSON',
-            contentType: 'application/json',
+            const postdata = {
+              stone: [x, y],
+            };
+            $.ajax({
+              type: 'POST',
+              url: '{{url_for("ajax")}}',
+              data: JSON.stringify(postdata),
+              dataType: 'JSON',
+              contentType: 'application/json',
 
-            success: function (data) {
-              x_1 = data.result2[0];
-              y_1 = data.result2[1];
-              gameStatus.point(x_1, y_1);
-            },
-            error: function (request, status, error) {
-              alert('ajax 통신 실패');
-              alert(error);
-            },
-          });
+              success: function (data) {
+                x_1 = data.result2[0];
+                y_1 = data.result2[1];
+                gameStatus.point(x_1, y_1);
+                turn = 1;
+              },
+              error: function (request, status, error) {
+                alert('ajax 통신 실패');
+                alert(error);
+              },
+            });
+          }
         });
       });
     </script>
