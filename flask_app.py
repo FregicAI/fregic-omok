@@ -18,10 +18,10 @@ player2 = 2
 current_player = 1
 
 try:
-    policy_param = pickle.load(open("best_policy_8_8_5.model", "rb"))
+    policy_param = pickle.load(open("models/best_policy_8_8_5.model", "rb"))
 except:
     policy_param = pickle.load(
-        open("best_policy_8_8_5.model", "rb"), encoding="bytes"
+        open("models/best_policy_8_8_5.model", "rb"), encoding="bytes"
     )  # To support python3
 best_policy = PolicyValueNetNumpy(8, 8, policy_param)
 mcts_player = MCTSPlayer(best_policy.policy_value_fn, c_puct=5, n_playout=400)
@@ -36,6 +36,8 @@ def index():
 def ajax():
     data = request.get_json()  # spot data from index.html
     move = data["stone"][0] * 8 + data["stone"][1]
+    if move > 64:
+        quit()
     board.do_move(move)
     ai_answer = mcts_player.get_action(board)
     board.do_move(ai_answer)
