@@ -49,20 +49,3 @@ def ajax():
 
 if __name__ == "__main__":
     app.run(debug=True)
-
-# while True:
-#     if current_player == 1:
-#         with app.test_request_context("/ajax"):
-#             ajax()
-#     else:
-#         move = mcts_player.get_action(board)
-#         Game.board.do_move(move)
-#     current_player = player1 if current_player != player1 else player2
-#     end, winner = Game.board.game_end()
-#     if end:
-#         if winner != -1:
-#             print("Game end. Winner is", players[winner])
-#         else:
-#             print("Game end. Tie")
-#     print("winner")
-#     break
