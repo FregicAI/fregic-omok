@@ -35,18 +35,19 @@ def index():
 @app.route("/ajax", methods=["POST"])
 def ajax():
     data = request.get_json()  # spot data from index.html
-    move = data["stone"][0] * 8 + data["stone"][1]
-    if move > 64:
-        quit()
-    board.do_move(move)
-    ai_answer = mcts_player.get_action(board)
-    board.do_move(ai_answer)
-    print(ai_answer)
-    answer = [int(ai_answer // 8), int(ai_answer % 8)]
-    print(board.availables)
-    print(answer)
+    print(data)
+    if data["message"] == "restart":
+        board.init_board()
+        return jsonify(result="success")
+    else:
+        move = data["stone"][0] * 8 + data["stone"][1]
+        board.do_move(move)
+        ai_answer = mcts_player.get_action(board)
+        board.do_move(ai_answer)
+        answer = [int(ai_answer // 8), int(ai_answer % 8)]
+        print("ai : {}".format(answer))
 
-    return jsonify(result="success", result2=answer)
+        return jsonify(result="success", result2=answer)
 
 
 if __name__ == "__main__":

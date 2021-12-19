@@ -95,15 +95,9 @@
         border-radius: 50%;
       }
 
-      #undo {
-        position: absolute;
-        right: 20;
-        bottom: 20;
-        background: #723820;
-        border: 1px solid black;
-        border-radius: 5px;
-        font-size: 1rem;
-        box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
+      .restart-button {
+        width: 10%;
+        height: 7%;
       }
     </style>
   </head>
@@ -113,6 +107,9 @@
     </div>
     <div class="points center"></div>
     <div class="container center"></div>
+    <button class="restart-button" onclick="restart()">
+      판 초기화<br />(에러날 때 클릭)
+    </button>
     <script>
       let turn = 1;
       const range = function (n, m) {
@@ -279,6 +276,26 @@
         }
       }
 
+      function restart() {
+        const postdata_2 = {
+          message: 'restart',
+        };
+        $.ajax({
+          type: 'POST',
+          url: '{{url_for("ajax")}}',
+          data: JSON.stringify(postdata_2),
+          dataType: 'JSON',
+          contentType: 'application/json',
+
+          success: function (data) {
+            alert('판 초기화 완료!\n새로고침하세요!');
+          },
+          error: function (request, status, error) {
+            alert('판 초기화 실패');
+          },
+        });
+      }
+
       const gameStatus = new GameStatus(container);
 
       [...document.querySelectorAll('.container .cell')].forEach(function (
@@ -301,13 +318,14 @@
             gameStatus.point(x, y);
             turn = 2;
 
-            const postdata = {
+            const postdata_1 = {
               stone: [x, y],
+              message: null,
             };
             $.ajax({
               type: 'POST',
               url: '{{url_for("ajax")}}',
-              data: JSON.stringify(postdata),
+              data: JSON.stringify(postdata_1),
               dataType: 'JSON',
               contentType: 'application/json',
 
@@ -324,6 +342,9 @@
             });
           }
         });
+        // document.getElementsByClassName('restart-button').onlick = function () {
+        //   restart();
+        // };
       });
     </script>
   </body>
