@@ -11,8 +11,8 @@ class Board(object):
     """board for the game"""
 
     def __init__(self, **kwargs):
-        self.width = int(kwargs.get("width", 8))
-        self.height = int(kwargs.get("height", 8))
+        self.width = int(kwargs.get("width", 15))
+        self.height = int(kwargs.get("height", 15))
         # board states stored as a dict,
         # key: move as location on the board,
         # value: player as pieces type
@@ -169,7 +169,7 @@ class Game(object):
         print("Player", player2, "with O".rjust(3))
         print()
         for x in range(width):
-            print("{0:8}".format(x), end="")
+            print("{0:15}".format(x), end="")
         print("\r\n")
         for i in range(height - 1, -1, -1):
             print("{0:4d}".format(i), end="")
@@ -177,11 +177,11 @@ class Game(object):
                 loc = i * width + j
                 p = board.states.get(loc, -1)
                 if p == player1:
-                    print("X".center(8), end="")
+                    print("X".center(15), end="")
                 elif p == player2:
-                    print("O".center(8), end="")
+                    print("O".center(15), end="")
                 else:
-                    print("_".center(8), end="")
+                    print("_".center(15), end="")
             print("\r\n\r\n")
 
     def start_play(self, player1, player2, start_player=0, is_shown=0):
