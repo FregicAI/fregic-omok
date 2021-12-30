@@ -47,7 +47,7 @@ class TrainPipeline:
         self.best_win_ratio = 0.0
         # num of simulations used for the pure mcts, which is used as
         # the opponent to evaluate the trained policy
-        self.pure_mcts_playout_num = 1000
+        self.pure_mcts_playout_num = 4000
         if init_model:
             # start training from an initial policy-value net
             self.policy_value_net = PolicyValueNet(
@@ -198,7 +198,7 @@ class TrainPipeline:
                         self.policy_value_net.save_model("./best_policy.model")
                         if (
                             self.best_win_ratio == 1.0
-                            and self.pure_mcts_playout_num < 5000
+                            and self.pure_mcts_playout_num < 100000
                         ):
                             self.pure_mcts_playout_num += 1000
                             self.best_win_ratio = 0.0
