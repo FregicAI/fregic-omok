@@ -21,7 +21,7 @@ from policy_value_net import PolicyValueNet
 
 
 class TrainPipeline:
-    def __init__(self, init_model=None):
+    def __init__(self, init_model="./models/best_policy.model"):
         # params of the board and the game
         self.board_width = 15
         self.board_height = 15
@@ -195,7 +195,9 @@ class TrainPipeline:
                         print("New best policy!!!!!!!!")
                         self.best_win_ratio = win_ratio
                         # update the best_policy
-                        self.policy_value_net.save_model("./best_policy.model")
+                        self.policy_value_net.save_model(
+                            "./models/best_policy(1).model"
+                        )
                         if (
                             self.best_win_ratio == 1.0
                             and self.pure_mcts_playout_num < 100000
