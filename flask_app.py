@@ -18,7 +18,7 @@ player2 = 2
 current_player = 1
 
 try:
-    policy_param = pickle.load(open("models/best_policy.model", "rb"))
+    policy_param = pickle.load(open("models/best_policy(1).model", "rb"))
 except:
     policy_param = pickle.load(
         open("models/best_policy_8_8_5.model", "rb"), encoding="bytes"
