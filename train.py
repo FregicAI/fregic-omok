@@ -21,7 +21,7 @@ from policy_value_net import PolicyValueNet
 
 
 class TrainPipeline:
-    def __init__(self, init_model="./models/best_policy.model"):
+    def __init__(self, init_model="./models/best_policy(1).model"):
         # params of the board and the game
         self.board_width = 15
         self.board_height = 15
@@ -47,7 +47,7 @@ class TrainPipeline:
         self.best_win_ratio = 0.0
         # num of simulations used for the pure mcts, which is used as
         # the opponent to evaluate the trained policy
-        self.pure_mcts_playout_num = 4000
+        self.pure_mcts_playout_num = 5000
         if init_model:
             # start training from an initial policy-value net
             self.policy_value_net = PolicyValueNet(
